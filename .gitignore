@@ -1,0 +1,7 @@
+/.bundle
+/build
+/.sass-cache
+.*.sw*
+
+/js/examples.js
+/patterns

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Golgi - A "Cellular" Viewer for Conwey's Game of Life</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="golgi.css" type="text/css" />
+    <script src="three.js"></script>
+    <script src="golgi.js"></script>
+  </head>
+  <body id="body" class="blue">
+    <div id="canvas"></div>
+
+    <div id="control">
+      <table id="control-body">
+        <tr>
+          <td><span id="button-reset" title="reset"></span></td>
+          <td><span id="button-slow" title="play slow"></span></td>
+          <td><span id="button-play" class="pausing" title="play/pause"></span></td>
+          <td><span id="button-fast" title="play fast"></span></td>
+          <td><span id="button-load" title="load"></span></td>
+        </tr>
+        <tr>
+          <td>reset</td>
+          <td>slow</td>
+          <td>play</td>
+          <td>fast</td>
+          <td>load</td>
+        </tr>
+        <tr>
+          <td><span id="button-clear" title="clear"></span></td>
+          <td><span id="button-backward" title="step backward"></span></td>
+          <td><input id="step" type="number" value="1" size="6" /></td>
+          <td><span id="button-forward" title="step forward"></span></td>
+          <td><span id="button-about" title="about"></span></td>
+        </tr>
+        <tr>
+          <td>clear</td>
+          <td>backward</td>
+          <td>step</td>
+          <td>forward</td>
+          <td>about</td>
+        </tr>
+      </table>
+      <input id="file" type="file">
+    </div>
+
+    <div id="progress">
+      <div id="progress-body">
+        <div id="progress-box">
+          <p>LOADING...</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="load">
+      <div id="load-body">
+        <div id="load-box">
+          <p>
+            Pick an example pattern or load your `lif' file:
+          </p>
+          <table>
+	    <tr>
+	      <td>
+		<select id="examples"></select>
+		or
+		<button id="button-file-load">Choose File...</button>
+	      </td>
+	    </tr>
+          </table>
+          <p>
+            You can download many patterns from
+            <a href="http://www.conwaylife.com/wiki/">LifeWiki</a>.
+          </p>
+          <p>
+            You can also drag/drop your file to the screen.
+          </p>
+          <p>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="about">
+      <div id="about-body">
+        <div id="about-box">
+          <h1>Golgi - A "Cellular" Viewer for Conwey's Game of Life</h1>
+          <table>
+            <tr>
+              <th>Rule:</th>
+              <td>
+                <input id="rule" type="text" value="B3/S23" size="6" />
+                <button id="button-set-rule">set</button>
+              </td>
+            </tr>
+            <tr>
+              <th>Style:</th>
+              <td>
+                <select id="css-list">
+                  <option value="blue">blue</option>
+                  <option value="red">red</option>
+                  <option value="mono">mono</option>
+                </select>
+              </td>
+            </tr>
+          </table>
+          <p>
+            Copyright (c)
+            <a href="http://twitter.com/mametter/">Yusuke Endoh</a>,
+            <a href="http://twitter.com/hirekoke/">@hirekoke</a>,
+            2013
+          </p>
+          <p>
+            <a href="http://github.com/mame/golgi/">http://github.com/mame/golgi/</a>
+          </p>
+          <p>
+            Powered by <a href="http://threejs.org/">Three.js</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div id="board-status" class="board">
+      <p>GENERATION: <span id="show-generation">X</span></p>
+      <p>POPULATION: <span id="show-population">X</span></p>
+      <p>RULE: <span id="show-rule">X</span></p>
+      <p>SPEED: <span id="show-speed">X</span></p>
+      <p>GRID SIZE: <span id="show-grid-size">X</span></p>
+      <p>BOUND: <span id="show-bound">W:00,E:00,N:00,S:00</span></p>
+      <p>PARTICLE COUNT: <span id="show-particle-count">X</span></p>
+      <p>HASHLIFE CACHE: <span id="show-cache-size">X</span></p>
+    </div>
+
+    <div id="board-meta" class="board">
+      <p>NAME: <span id="show-name">N/A</span></p>
+      <p>AUTHOR: <span id="show-author">N/A</span></p>
+      <p>COMMENT: <span id="show-comment">N/A</span></p>
+    </div>
+
+    <div id="board-perf" class="board">
+      <p>FPS: <span id="show-fps">0</span></p>
+      <div id="perf-graph"></div>
+    </div>
+
+    <div id="board-config" class="board">
+      <p>
+        <label for="check-hide-boards">
+          <input type="checkbox" id="check-hide-boards" class="check" />
+          <span title="show/hide all boards">HIDE-BOARDS</span>
+        </label>
+      </p>
+      <div id="board-config-hide">
+        <p>
+          <label for="check-edit-mode">
+            <input type="checkbox" id="check-edit-mode" class="check" />
+            <span title="make the screen draggable or editable">EDIT-MODE</span>
+          </label>
+        </p>
+        <p>
+          <label for="check-auto-scale">
+            <input type="checkbox" checked="checked" id="check-auto-scale" class="check" />
+            <span title="enable/disable the auto scaling">AUTO-SCALE</span>
+          </label>
+        </p>
+        <p>
+          <label for="check-cell-view">
+            <input type="checkbox" id="check-cell-view" class="check" />
+            <span title="toggle between a canvas-based view and a WebGL-based view">CELL-VIEW</span>
+          </label>
+        </p>
+        <p>
+          <label for="check-show-grid">
+            <input type="checkbox" checked="checked" id="check-show-grid" class="check" />
+            <span title="show/hide grid">SHOW-GRID</span>
+          </label>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

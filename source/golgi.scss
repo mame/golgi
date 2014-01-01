@@ -1,0 +1,229 @@
+@mixin user-select($type) {
+    -webkit-touch-select: $type;
+    -webkit-user-select: $type;
+    -khtml-user-select: $type;
+    -moz-user-select: $type;
+    -ms-user-select: $type;
+    user-select: $type;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    background: #000000;
+    overflow: hidden;
+    @include user-select(none);
+}
+
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+div#canvas {
+    padding: 0px;
+    margin: 0px;
+    height: 100%;
+}
+
+div.board {
+    position: absolute;
+    opacity: 0.8;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 16px;
+    text-align: left;
+    cursor: default;
+}
+
+div#board-status {
+    top: 0px;
+    left: 0px;
+    padding: 0px 5px 2px 0px;
+}
+
+div#board-meta {
+    top: 0px;
+    right: 0px;
+    padding: 0px 0px 2px 5px;
+    max-width: 50%;
+    max-height: 6em;
+    overflow: auto;
+    @include user-select(text);
+}
+
+div#board-perf {
+    bottom: 0px;
+    left: 0px;
+    padding: 2px 0px 0px 0px;
+}
+div#board-perf div#perf-graph {
+    position: relative;
+    width: 100px;
+    height: 30px;
+}
+div#board-perf div#perf-graph span.perf-graph-bar {
+    width: 1px;
+    height: 30px;
+    float: left;
+}
+
+div#board-config {
+    bottom: 0px;
+    right: 0px;
+    padding: 2px 0px 0px 5px;
+}
+div#board-config label {
+    padding: 3px;
+    line-height: 25px;
+    cursor: pointer;
+}
+div#board-config input {
+    margin: 0px;
+    cursor: pointer;
+}
+
+@mixin modal($id) {
+    div##{$id} {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
+    div##{$id} div##{$id}-body {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+    }
+    div##{$id} div##{$id}-body div##{$id}-box {
+        display: inline-block;
+        padding: 1em;
+        text-align: center;
+        opacity: 0.8;
+        font-family: Helvetica,Arial,sans-serif;
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 20px;
+    }
+    div##{$id} table {
+        margin: 15px auto;
+        border: 1px solid #ffffff;
+        border-collapse: collapse;
+    }
+    div##{$id} th {
+        text-align: right;
+        border: 1px solid #ffffff;
+        padding: 3px 5px 3px 10px;
+    }
+    div##{$id} td {
+        text-align: left;
+        border: 1px solid #ffffff;
+        padding: 3px 6px;
+    }
+}
+
+@include modal(progress);
+@include modal(load);
+@include modal(about);
+h1 {
+    margin: 0px;
+    padding: 0px;
+    font-size: 15px;
+}
+
+
+div#control {
+    position: absolute;
+    bottom: 0px;
+    opacity: 0.8;
+    width: 100%;
+    margin: 0px;
+    text-align: center;
+    cursor: default;
+}
+div#control input#step {
+    text-align: right;
+    width: 64px;
+    display: inline;
+    vertical-align: top;
+}
+div#control input#file {
+    display: none;
+}
+table#control-body {
+    margin: 0px auto;
+    border: 0px;
+    bottom: 0px;
+    padding: 5px 10px 0px 10px;
+}
+table#control-body td {
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    vertical-align: bottom;
+}
+table#control-body tr {
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+@mixin button($xpos, $ypos, $size) {
+    display: inline-block;
+    cursor: pointer;
+    width: $size;
+    height: $size;
+    background-image: url("icons.png");
+    background-position: (-$xpos) (-$ypos);
+    &:hover { background-position: (-$xpos - $size) (-$ypos); }
+    &:active { background-position: (-$xpos - $size * 2) (-$ypos); }
+}
+
+span#button-play.pausing { @include button(  0px,   0px, 48px); }
+span#button-play.playing { @include button(144px,   0px, 48px); }
+span#button-reset        { @include button(  0px,  48px, 32px); }
+span#button-slow         { @include button( 96px,  48px, 32px); }
+span#button-fast         { @include button(192px,  48px, 32px); }
+span#button-clear        { @include button(  0px,  80px, 32px); }
+span#button-backward     { @include button( 96px,  80px, 32px); }
+span#button-forward      { @include button(192px,  80px, 32px); }
+span#button-load         { @include button(  0px, 112px, 32px); }
+span#button-about        { @include button( 96px, 112px, 32px); }
+
+@mixin theme($front, $back, $link, $link_h, $link_a, $link_v) {
+    color: $front;
+    div#board-perf div#perf-graph {
+	background: $front;
+    }
+    div.board,
+    div#board-perf div#perf-graph span.perf-graph-bar,
+    div#progress div#progress-body div#progress-box,
+    div#load div#load-body div#load-box,
+    div#about div#about-body div#about-box,
+    table#control-body {
+	background: $back;
+    }
+    a {
+	color: $link;
+	&:hover   { color: $link_h; }
+	&:active  { color: $link_a; }
+	&:visited { color: $link_v; }
+    }
+}
+
+body.blue {
+    @include theme(#33ffcc, #000066, #00ffff, #ff9933, #ff0000, #0099cc);
+}
+body.red {
+    @include theme(#ccff33, #660000, #ffff00, #3399ff, #0000ff, #cc9900);
+}
+body.mono {
+    @include theme(#ffffff, #000000, #999999, #cccccc, #ffffff, #333333);
+}
