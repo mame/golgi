@@ -19,6 +19,11 @@ Cell view mode:
 
 ![Cell view screenshot](img/cell-view.png)
 
+Demo video on Youtube:
+
+* <http://www.youtube.com/watch?v=vbk22KTfS_Q>
+* <http://www.youtube.com/watch?v=culau1UMqpQ>
+
 ## License
 
 * `vendor/all.zip` is produced by [LifeWiki](http://www.conwaylife.com/wiki/Main_Page) under GFDL.
