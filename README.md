@@ -2,7 +2,7 @@
 
 ## What it is
 
-This is a "Cellular" Viewer for Conwey's Game of Life.
+This is a "Cellular" Viewer for Conway's Game of Life.
 See it in action: <http://mame.github.io/golgi/>
 
 ## Features
